@@ -18,7 +18,7 @@ data = {'Name': ['Alice', 'Bob', 'Charlie'],
 # df = pd.DataFrame(data)
 # print(df)
 
-excel_file_path = "Unprocessed Files/lines.xlsx"
+excel_file_path = "unprocessed_files/lines.xlsx"
 
 # Read the Excel file into a DataFrame
 df = pd.read_excel(excel_file_path)
