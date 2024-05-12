@@ -33,9 +33,43 @@ for index, row in df.iterrows():
         # locals()[x] = cell_value  
         print(x)
 
+def display_voices(data):
+
+    for voice in data['voices']:
+  # For each 'voice', the 'name' and 'voice_id' are printed out. 
+  # These keys in the voice dictionary contain values that provide information about the specific voice.
+        print(f"{voice['name']}; {voice['voice_id']}")
+    
+    return
+
+# Get the list of available voices from API
+def get_voices():
+
+    headers = {
+        "Accept": "application/json",
+        "xi-api-key": api_key,
+        "Content-Type": "application/json"
+    }
+
+    url = "https://api.elevenlabs.io/v1/voices"
+
+    response = requests.request("GET", url, params={"api_key": api_key}, headers=headers)
+
+    response_json = response.json()
+
+    voices = response_json["voices"]
+
+    display_voices(response_json)
+    
+    return voices
+
+# print(get_voices())
+
+get_voices()
 
 
-url = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+
+# print(get_voices())
 
 payload = {
     "text": "<string>",
@@ -60,9 +94,9 @@ payload = {
 }
 headers = {"Content-Type": "application/json"}
 
-response = requests.request("POST", url, json=payload, headers=headers)
+# response = requests.request("POST", url, json=payload, headers=headers)
 
-print(response.text)
+# print(response.text)
 
   # Adjust the variable name as needed
 
