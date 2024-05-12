@@ -25,5 +25,8 @@ build/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Exclude Excel temporary files
+# Excel temporary files
 ~$*.xlsx
+
+# JSON config
+config.json
