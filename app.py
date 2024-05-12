@@ -92,7 +92,9 @@ def get_data_from_excel_file():
         voice_id = row['voice_id']
         text = row['text']
         print(f"Line ID: {line_id}, Voice ID: {voice_id}, Text: {text}")
-
+        
+        # Call the Text-to-Speech API and save the audio stream to an output file
+        # for each row in the Excel file
         call_text_to_speech_api(
             voice_id=voice_id,
             text=text
