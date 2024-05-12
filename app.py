@@ -12,20 +12,10 @@ api_key = config['api_key']
 CHUNK_SIZE = 1024  # Size of chunks to read/write at a time
 XI_API_KEY = api_key  # Your API key for authentication
 OUTPUT_PATH = "output.mp3"  # Path to save the output audio file
+EXCEL_FILE_PATH = "unprocessed_files/lines.xlsx"
 
 print("app started!")
 
-excel_file_path = "unprocessed_files/lines.xlsx"
-
-# Read the Excel file into a DataFrame
-df = pd.read_excel(excel_file_path)
-
-for index, row in df.iterrows():
-    for column in df.columns:
-        cell_value = row[column]
-        x = f"{column}: {cell_value}"  
-        # locals()[x] = cell_value  
-        # print(x)
 def call_text_to_speech_api(voice_id, text):
 
     headers = {
@@ -64,11 +54,6 @@ def call_text_to_speech_api(voice_id, text):
         
     return response.text
 
-response_text = call_text_to_speech_api(
-    voice_id="5Q0t7uMcjvnagumLfvZi",
-    text="Hello Ryan"
-    )    
-
 # Get the list of available voices from API
 def get_voices():
 
@@ -95,3 +80,22 @@ def get_voices():
     return voices
 
 get_voices()
+
+# Read the unprocessed Excel file to get data for the API call
+def get_data_from_excel_file():
+
+    # Read the unprocessed Excel file into a DataFrame
+    df = pd.read_excel(EXCEL_FILE_PATH)
+
+    for index, row in df.iterrows():
+        line_id = row['line_id']
+        voice_id = row['voice_id']
+        text = row['text']
+        print(f"Line ID: {line_id}, Voice ID: {voice_id}, Text: {text}")
+
+        call_text_to_speech_api(
+            voice_id=voice_id,
+            text=text
+        )    
+
+get_data_from_excel_file()
