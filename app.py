@@ -39,6 +39,11 @@ def display_voices(data):
   # For each 'voice', the 'name' and 'voice_id' are printed out. 
   # These keys in the voice dictionary contain values that provide information about the specific voice.
         print(f"{voice['name']}; {voice['voice_id']}")
+
+        with open('voices.txt', 'a') as file:
+    # Iterate over each voice dictionary in the list
+           
+          file.write(f"{voice['name']}; {voice['voice_id']}\n")
     
     return
 
@@ -58,6 +63,11 @@ def get_voices():
     response_json = response.json()
 
     voices = response_json["voices"]
+
+    df = pd.DataFrame(voices)
+
+    # Write the DataFrame to an Excel file
+    df.to_excel('voices.xlsx', index=False)
 
     display_voices(response_json)
     
