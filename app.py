@@ -16,7 +16,7 @@ OUTPUT_FOLDER = "speech_files"
 EXCEL_FILE_PATH = "unprocessed_files/lines.xlsx"
 
 # Create the directory if it doesn't exist
-os.makedirs(os.path.join("speech_files"), exist_ok=True)
+os.makedirs(os.path.join(OUTPUT_FOLDER), exist_ok=True)
 
 
 print("app started!")
