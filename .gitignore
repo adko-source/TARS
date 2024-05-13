@@ -30,3 +30,6 @@ pip-delete-this-directory.txt
 
 # JSON config
 config.json
+
+# ignore .mp3 files
+*.mp3

@@ -1,6 +1,7 @@
 import pandas as pd # Used for working with Excel data in Python
 import requests  # Used for making HTTP requests
 import json  # Used for working with JSON data
+import os  # Used for interacting with the operating system
 
 # Get API key from config.json
 with open('config.json') as config_file:
@@ -11,12 +12,16 @@ api_key = config['api_key']
 # Define constants
 CHUNK_SIZE = 1024  # Size of chunks to read/write at a time
 XI_API_KEY = api_key  # Your API key for authentication
-OUTPUT_PATH = "output.mp3"  # Path to save the output audio file
+OUTPUT_FOLDER = "speech_files"
 EXCEL_FILE_PATH = "unprocessed_files/lines.xlsx"
+
+# Create the directory if it doesn't exist
+os.makedirs(os.path.join("speech_files"), exist_ok=True)
+
 
 print("app started!")
 
-def call_text_to_speech_api(voice_id, text):
+def call_text_to_speech_api(voice_id, text, file_name):
 
     headers = {
         "Accept": "application/json",
@@ -41,9 +46,11 @@ def call_text_to_speech_api(voice_id, text):
     # Check if the request was successful
     if response.ok:
         
+        file_name_and_path = os.path.join(OUTPUT_FOLDER, file_name)
+       
         # Open the output file in write-binary mode
-        with open(OUTPUT_PATH, "wb") as f:
-            # Read the response in chunks and write to the file
+        with open(file_name_and_path, "wb") as f:
+            # Read the response in chunks and write to the mp3 audio file
             for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
                 f.write(chunk)
         # Inform the user of success
@@ -91,13 +98,19 @@ def get_data_from_excel_file():
         line_id = row['line_id']
         voice_id = row['voice_id']
         text = row['text']
+        file_name = f"{line_id}_{voice_id}.mp3"
         print(f"Line ID: {line_id}, Voice ID: {voice_id}, Text: {text}")
         
         # Call the Text-to-Speech API and save the audio stream to an output file
         # for each row in the Excel file
+
+        # TODO: Pass file name (index)
+        # 
         call_text_to_speech_api(
             voice_id=voice_id,
-            text=text
+            text=text,
+            file_name=file_name
+            
         )    
 
 get_data_from_excel_file()
