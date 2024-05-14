@@ -15,13 +15,9 @@ XI_API_KEY = api_key  # Your API key for authentication
 OUTPUT_FOLDER = "speech_files"
 EXCEL_FILE_PATH = "unprocessed_files/lines.xlsx"
 
-# Create the directory if it doesn't exist
-os.makedirs(os.path.join(OUTPUT_FOLDER), exist_ok=True)
-
-
 print("app started!")
 
-def call_text_to_speech_api(voice_id, text, file_name):
+def call_text_to_speech_api(voice_id, text, file_name, folder_name):
 
     headers = {
         "Accept": "application/json",
@@ -45,8 +41,12 @@ def call_text_to_speech_api(voice_id, text, file_name):
     
     # Check if the request was successful
     if response.ok:
-        
-        file_name_and_path = os.path.join(OUTPUT_FOLDER, file_name)
+
+        # Create the directory to save the audio files in
+        # group by voice actor name in the speech_files folder
+        os.makedirs(os.path.join(OUTPUT_FOLDER, folder_name), exist_ok=True)
+
+        file_name_and_path = os.path.join(OUTPUT_FOLDER, folder_name, file_name)
        
         # Open the output file in write-binary mode
         with open(file_name_and_path, "wb") as f:
@@ -98,7 +98,9 @@ def get_data_from_excel_file():
         line_id = row['line_id']
         voice_id = row['voice_id']
         text = row['text']
+        name = row['name'].lower()
         file_name = f"{line_id}_{voice_id}.mp3"
+        folder_name = f"{name}"
         print(f"Line ID: {line_id}, Voice ID: {voice_id}, Text: {text}")
         
         # Call the Text-to-Speech API and save the audio stream to an output file
@@ -109,7 +111,8 @@ def get_data_from_excel_file():
         call_text_to_speech_api(
             voice_id=voice_id,
             text=text,
-            file_name=file_name
+            file_name=file_name,
+            folder_name=folder_name
             
         )    
 
