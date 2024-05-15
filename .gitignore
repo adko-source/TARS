@@ -28,8 +28,5 @@ pip-delete-this-directory.txt
 # Excel temporary files
 ~$*.xlsx
 
-# JSON config
-config.json
-
 # ignore .mp3 files
 *.mp3

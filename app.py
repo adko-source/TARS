@@ -15,7 +15,8 @@ XI_API_KEY = api_key  # Your API key for authentication
 OUTPUT_FOLDER = "speech_files"
 EXCEL_FILE_PATH = "unprocessed_files/lines.xlsx"
 
-print("app started!")
+print("App started!")
+print("Audio files will be saved in the 'speech_files' folder.")
 
 def call_text_to_speech_api(voice_id, text, file_name, folder_name):
 
