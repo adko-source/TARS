@@ -118,3 +118,14 @@ def get_data_from_excel_file():
         )    
 
 get_data_from_excel_file()
+
+# Move the processed files to the processed_files folder
+def move_files():
+    
+    source_path = 'unprocessed_files/lines.xlsx'
+
+    destination_path = 'processed_files/lines.xlsx'
+
+    os.rename(source_path, destination_path)
+
+move_files()
